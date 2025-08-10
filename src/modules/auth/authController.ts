@@ -4,7 +4,7 @@ import { comparePassword, hashPassword } from "../../utils/passwordCheck";
 import { generateToken } from "../../utils/jwt";
 
 export const signup = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     try {
         const existingUser = await prisma.user.findUnique({
             where: {
@@ -22,6 +22,7 @@ export const signup = async (req: Request, res: Response) => {
 
         const user = await prisma.user.create({
             data: {
+                name,
                 email,
                 password: hashed,
             }
