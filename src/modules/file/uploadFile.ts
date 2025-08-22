@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../prismaClient/client";
+import { uploadToS3 } from "../../lib/s3/uploadToS3";
 
 interface AuthRequest extends Request {
     userId: string
@@ -31,11 +32,13 @@ export const uploadFile = async (req: Request, res: Response) => {
             return
         }
 
+        const key = `raw-uploads/${userId}_${file.originalname}`;
+        const url = await uploadToS3(file.buffer, key, file.mimetype, false);
 
         const saved = await prisma.file.create({
             data: {
                 name: file.originalname,
-                url: `/uploads/${file.filename}`,
+                url: url,
                 type: file.mimetype,
                 size: file.size,
                 userId: userId

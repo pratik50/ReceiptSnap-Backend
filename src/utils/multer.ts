@@ -3,16 +3,7 @@ import { Request } from "express";
 import fs from "fs";
 import path from "path";
 
-const localTempUploads = path.join(process.cwd(), "/uploads");
-
-if (!fs.existsSync(localTempUploads)) {
-    fs.mkdirSync(localTempUploads, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "uploads/"),
-    filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
-});
+const storage = multer.memoryStorage(); // 👈 diskStorage hata diya
 
 export const upload = multer({
     storage: storage,
