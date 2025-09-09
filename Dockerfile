@@ -5,7 +5,6 @@ WORKDIR /app
 # Copying dependencies & env & schema
 COPY package*.json ./
 COPY prisma ./prisma
-COPY .env .env
 
 # Install dependencies
 RUN npm install
@@ -17,6 +16,9 @@ COPY . .
 RUN rm -rf node_modules/.prisma dist
 
 # Generate Prisma Client
+# Build-time ARG (only needed for prisma generate)
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 RUN npx prisma generate
 
 # Build TS files after client is ready

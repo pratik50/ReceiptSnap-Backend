@@ -1,0 +1,30 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: aws-ec2
+
+    steps:
+    - name: Pull Docker image
+      run: sudo docker pull pratik50/receiptsnap-backend:latest
+
+    - name: Delete Old docker container
+      run: sudo docker rm -f receiptsnap-backend || true
+
+    - name: Run Docker Container
+      run: |
+          sudo docker run -d -p 8080:8080 --name receiptsnap-backend \
+            -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+            -e JWT_SECRET='${{ secrets.JWT_SECRET }}' \
+            -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' \
+            -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
+            -e AWS_REGION='${{ secrets.AWS_REGION }}' \
+            -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' \
+            -e PORT='${{ secrets.PORT }}' \
+            pratik50/receiptsnap-backend:latest
