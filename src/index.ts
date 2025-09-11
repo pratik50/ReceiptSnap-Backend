@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRouter from './routes/auth';
 import fileRouter from './routes/file';
-import { getLocalIPAddress } from './getLocalIPAddress';
+import { getMachineIPAddress } from './getLocalIPAddress';
 import cors from 'cors';
 
 dotenv.config();
@@ -23,9 +23,9 @@ app.get("/", (req, res) => {
     res.send("✅ Your server is running here!");
 });
 
-const PORT = process.env.PORT || 3000;
-const ip = getLocalIPAddress()
+const PORT = 8080;
+const ip = getMachineIPAddress()
 
-app.listen(3000, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running at http://${ip}:${PORT}`);
 });
