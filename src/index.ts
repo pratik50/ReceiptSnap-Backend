@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRouter from './routes/auth';
 import fileRouter from './routes/file';
-import { getMachineIPAddress } from './getLocalIPAddress';
 import cors from 'cors';
 
 dotenv.config();
@@ -24,8 +23,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = 8080;
-const ip = getMachineIPAddress()
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server running at http://${ip}:${PORT}`);
+    console.log(`🚀 Server running on your ip on port:${PORT}`);
 });

@@ -24,8 +24,9 @@ model User {
 model File {
   id                  String    @id @default(cuid())
   name                String
-  url                 String
+  url                 String?
   type                String
+  key                 String?
   size                Int
   user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              String
