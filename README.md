@@ -1,6 +1,6 @@
 # 📷 ReceiptSnap Backend  
 
-Backend service for **ReceiptSnap**, an Android app that allows users to securely upload, process, and manage receipts/documents with smart categorization using ML and scalable cloud infrastructure.  
+Backend service for **ReceiptSnap**, an Android app that allows users to securely upload, process, and manage receipts/documents with smart categorization using AWS Services and scalable cloud infrastructure.  
 
 ---
 
