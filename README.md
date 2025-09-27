@@ -89,6 +89,6 @@ Here’s the high-level architecture of **ReceiptSnap Backend**:
 ## 🆓 End Note  
 
 This project is **open-source and free to use**.  
-You are welcome to **modify, distribute, and learn** from it under the terms of the [MIT License](./LICENSE).  
+You are welcome to **modify, distribute, and learn** from it.  
 
 Made with ❤️ by **Pratik Jadhav**  
