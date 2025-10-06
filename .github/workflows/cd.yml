@@ -7,24 +7,36 @@ on:
       - completed
 
 jobs:
-  build:
-    runs-on: [self-hosted]
-    
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      PORT: ${{ secrets.PORT }}
+
     steps:
-    - name: Pull Docker image
-      run: sudo docker pull pratik50/receiptsnap-backend:latest
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Delete Old docker container
-      run: sudo docker rm -f receiptsnap-backend || true
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.29.0'
 
-    - name: Run Docker Container
-      run: |
-          sudo docker run -d --restart always -p 8080:8080 --name receiptsnap-backend \
-            -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
-            -e JWT_SECRET='${{ secrets.JWT_SECRET }}' \
-            -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' \
-            -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
-            -e AWS_REGION='${{ secrets.AWS_REGION }}' \
-            -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' \
-            -e PORT='${{ secrets.PORT }}' \
-            pratik50/receiptsnap-backend:latest
+      - name: Configure kubeconfig
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+
+      - name: Generate deployment file from template
+        run: |
+          envsubst < k8s/deployment.template.yaml > k8s/deployment.yaml
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/deployment.yaml
