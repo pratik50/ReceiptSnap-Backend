@@ -2,6 +2,10 @@
 
 Backend service for **ReceiptSnap**, an Android app that allows users to securely upload, process, and manage receipts/documents with smart categorization using AWS Services and scalable cloud infrastructure.  
 
+This repository contains the **Backend** of the ReceiptSnap project.  
+The Android Fronted is developed separately and can be found here:  
+👉 **ReceiptSnap Frontend:** https://github.com/pratik50/ReceiptSnap-Frontend-Android
+
 ---
 
 ## 🚀 Features  
