@@ -28,3 +28,5 @@ jobs:
             -e AWS_BUCKET_NAME='${{ secrets.AWS_BUCKET_NAME }}' \
             -e PORT='${{ secrets.PORT }}' \
             pratik50/receiptsnap-backend:latest
+
+            
