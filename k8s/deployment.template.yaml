@@ -32,3 +32,4 @@ spec:
               value: "${AWS_BUCKET_NAME}"
             - name: PORT
               value: "${PORT}"
+              
