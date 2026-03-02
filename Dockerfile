@@ -1,28 +1,27 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copying dependencies & env & schema
 COPY package*.json ./
 COPY prisma ./prisma
 
-# Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copying source code
+RUN DATABASE_URL="x" npx prisma generate
+
 COPY . .
-
-# Clean old builds -- (super important)
-RUN rm -rf node_modules/.prisma dist
-
-# Generate Prisma Client
-# Build-time ARG (only needed for prisma generate)
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
-RUN npx prisma generate
-
-# Build TS files after client is ready
 RUN npm run build
 
-# Run compiled app
+# ---- Final image ----
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
+COPY package*.json ./
+
+ENV NODE_ENV=production
+
 CMD ["npm", "start"]
