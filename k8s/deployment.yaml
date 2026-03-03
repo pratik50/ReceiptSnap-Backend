@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiptsnap-backend
+  namespace: backend-team
+spec:
+  replicas: 2                    
+  selector:
+    matchLabels:
+      app: receiptsnap-backend
+  template:
+    metadata:
+      labels:
+        app: receiptsnap-backend
+    spec:
+      containers:
+        - name: backend
+          image: pratik50/receiptsnap-backend:latest  # we will replace in CI
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: backend-secrets    # Secret 
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:               # Container zinda hai?
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:              # Container traffic lene ke liye ready hai?
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
