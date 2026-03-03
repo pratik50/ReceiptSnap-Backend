@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRouter from './routes/auth';
 import fileRouter from './routes/file';
+import healthRouter from './routes/health';
 import cors from 'cors';
 
 dotenv.config();
@@ -13,6 +14,8 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 
 app.use("/api/files", fileRouter);
+
+app.use("/health", healthRouter);
 
 // Serve static files
 app.use('/pdfjs', express.static("public/pdfjs"));
