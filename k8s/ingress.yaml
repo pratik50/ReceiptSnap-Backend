@@ -18,3 +18,8 @@ spec:
                 name: receiptsnap-backend-svc
                 port:
                   number: 80
+  defaultBackend:
+    service:
+      name: receiptsnap-backend-svc
+      port:
+        number: 80
