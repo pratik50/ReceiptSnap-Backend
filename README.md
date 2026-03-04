@@ -40,25 +40,8 @@ SQS → Lambda → Bedrock → Results → DB + S3
 ```
 
 ### Production Infrastructure (prod branch)
-```
-git push origin prod
-        ↓
-GitHub Actions
-        ↓  Build + Push Docker image (SHA tagged)
-Docker Hub
-        ↓  kubectl rolling update
-DigitalOcean DOKS (146.190.11.108)
-        ↓
-Traefik (Ingress + Load Balancer)
-        ↓
-Service (ClusterIP)
-        ↓
-Deployment (2–6 Pods via HPA)
-  ├── Pod 1 (Node 1)
-  └── Pod 2 (Node 2)
-        ↓
-OTel Collector → Prometheus → Grafana
-```
+<img width="1456" height="736" alt="1772631759146" src="https://github.com/user-attachments/assets/58e54b8a-a313-4ea1-9fae-3e3beeaa9269" />
+
 
 ---
 
