@@ -54,6 +54,7 @@ jobs:
       - name: Deploy to K8s
         run: |
           kubectl apply -f k8s/
+          kubectl apply -f k8s/monitoring/
           kubectl set image deployment/receiptsnap-backend \
             backend=pratik50/receiptsnap-backend:${{ github.sha }} \
             -n backend-team
