@@ -1,0 +1,48 @@
+image:
+  repository: otel/opentelemetry-collector-contrib
+
+mode: deployment
+
+config:
+  receivers:
+    otlp:
+      protocols:
+        http:
+          endpoint: 0.0.0.0:4318
+        grpc:
+          endpoint: 0.0.0.0:4317
+
+  processors:
+    batch: {}
+    memory_limiter:
+      check_interval: 1s
+      limit_mib: 256
+
+  exporters:
+    prometheus:
+      endpoint: "0.0.0.0:8889"
+    debug:
+      verbosity: basic
+
+  service:
+    pipelines:
+      metrics:
+        receivers: [otlp]
+        processors: [memory_limiter, batch]
+        exporters: [prometheus, debug]
+
+ports:
+  otlp:
+    enabled: true
+  otlp-http:
+    enabled: true
+  prometheus:
+    enabled: true
+    containerPort: 8889
+    servicePort: 8889
+    protocol: TCP
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8889"
+  prometheus.io/path: "/metrics"
