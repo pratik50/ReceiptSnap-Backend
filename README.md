@@ -312,7 +312,7 @@ kubectl apply -f k8s/monitoring/
 | TLS/SSL (cert-manager) | ⏳ Pending — needs real domain |
 | Loki (log aggregation) | ⏳ Pending — needs larger cluster |
 | ArgoCD (full GitOps) | ⏳ Pending — needs larger cluster |
-| Sealed Secrets | ⏳ Pending — for committing secrets safely to Git |
+| Sealed Secrets | ✅ Done |
 | Network Policies | ⏳ Not yet configured |
 | RBAC | ⏳ Default config only |
 
