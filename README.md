@@ -6,6 +6,11 @@ This repository contains the **Backend** of the ReceiptSnap project.
 The Android Fronted is developed separately and can be found here:  
 👉 **ReceiptSnap Frontend:** https://github.com/pratik50/ReceiptSnap-Frontend-Android
 
+
+> **Branch:** `main` — Runs on the AWS EC2 + Docker steup using the Github Runner.
+> The `prod` branch is of Production Kubernetes deployment on DigitalOcean DOKS.
+> Check the `prod` branch for setting up with Kubernetes.
+
 ---
 
 ## 🚀 Features  
